@@ -6,7 +6,7 @@ const dataObj = require("./data/data.json");
 
 module.exports = {
 	entry: [
-		'./src/app.js'
+		'./src/app.ts'
 	],
 	output: {
 		path: path.resolve(__dirname, './dist'),
@@ -34,14 +34,22 @@ module.exports = {
 					name: '[name].[ext]',
 				},
 			},
-		  }]
+		},
+		{
+			test: /\.tsx?$/,
+			use: 'ts-loader',
+			exclude: /node_modules/,
+		}]
 	},
 	plugins: [
 		new VueLoaderPlugin()
 	],
 	resolve: {
+		extensions: ['.ts', '.js', '.vue', '.json'],
 		alias: {
-			fonts : path.resolve(__dirname, 'src/assets/fonts')
+			'@': path.resolve(__dirname, "./src/"),
+			fonts : path.resolve(__dirname, 'src/assets/fonts'),
+			'vue$': 'vue/dist/vue.esm.js',
 		}
 	},
 	devServer: {
