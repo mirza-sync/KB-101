@@ -1,6 +1,11 @@
 <template>
 	<div>
 		<tawk-header></tawk-header>
+		<div>
+			<router-link to="/">Go to Home</router-link>
+    		<router-link to="/Category">Go to Category</router-link>
+		</div>
+		<router-view></router-view>
 	</div>
 </template>
 
