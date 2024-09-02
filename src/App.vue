@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<tawk-header></tawk-header>
 		<div>
 			<router-link to="/">Go to Home</router-link>
@@ -21,4 +21,8 @@ export default {
 
 <style lang="scss" scoped>
 	@import 'scss/main.scss';
+
+	.container {
+		padding-inline: 9rem;
+	}
 </style>
