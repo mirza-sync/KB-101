@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" @click="navigateToCategoryArticles()">
         <i :class="getIconClass(category)" class="icon"></i>
         <div class="title">{{ category.title }}</div>
         <div class="article">{{ category.totalArticle }} articles</div>
@@ -16,6 +16,9 @@ export default {
     methods: {
         getIconClass(category) {
             return `fas fa-${category.icon}`
+        },
+        navigateToCategoryArticles() {
+            this.$router.push(`/category/${this.category.id}`)
         }
     }
 }
@@ -29,6 +32,7 @@ export default {
         border-radius: 4px;
         text-align: center;
         padding: 2rem;
+        cursor: pointer;
     }
 
     .icon {

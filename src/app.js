@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 const router = new VueRouter({
 	routes: [
 		{ path: '/', component: Home },
-	    { path: '/category', component: Category },
+	    { path: '/category/:id', component: Category },
     ]
 })
 
