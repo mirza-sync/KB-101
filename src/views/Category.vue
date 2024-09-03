@@ -19,10 +19,10 @@ export default {
         }
     },
     mounted() {
-        this.getCategoryById(this.$route.params.id)
+        this.getArticlesByCategoryId(this.$route.params.id)
     },
     methods: {
-        async getCategoryById(id) {
+        async getArticlesByCategoryId(id) {
             try {
                 const res = await axiosClient.get(`category/${id}`)
                 this.articles = res.data.filter(article => article.status === 'published')
