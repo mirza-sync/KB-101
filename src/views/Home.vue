@@ -2,6 +2,7 @@
     <div class="card-container">
         <div v-for="category in categories" :key="category.id" style="height: max-content">
             <CategoryCard :category="category" />
+            <button @click="$store.commit('increment')">{{ $store.state.count }}</button>
         </div>
     </div>
 </template>
