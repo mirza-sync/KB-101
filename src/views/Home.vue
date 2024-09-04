@@ -2,7 +2,10 @@
     <div class="card-container">
         <div v-for="category in categories" :key="category.id" style="height: max-content">
             <CategoryCard :category="category" />
-            <button @click="$store.commit('increment')">{{ $store.state.count }}</button>
+            <button @click="increment()">
+                {{ counterStore.count }},
+                {{ counterStore.doubleCount }}
+            </button>
         </div>
     </div>
 </template>
@@ -10,6 +13,8 @@
 <script>
 import { axiosClient } from '../lib/axios';
 import CategoryCard from '../components/CategoryCard.vue'
+import { useCounterStore } from '../store'
+import { mapStores, mapActions } from 'pinia'
 
 export default {
     name: 'Home',
@@ -24,7 +29,11 @@ export default {
     created() {
         this.getCategories()
     },
+    computed: {
+        ...mapStores(useCounterStore)
+    },
     methods: {
+        ...mapActions(useCounterStore, ['increment']),
         async getCategories() {
             try {
                 const res = await axiosClient.get('categories')

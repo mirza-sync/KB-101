@@ -3,10 +3,9 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import Home from './views/Home.vue'
 import Category from './views/Category.vue'
-import store from './store'
+import { createPinia, PiniaVuePlugin } from 'pinia'
 
 Vue.use(VueRouter)
-
 const router = new VueRouter({
 	routes: [
 		{ path: '/', component: Home },
@@ -14,9 +13,12 @@ const router = new VueRouter({
     ]
 })
 
+Vue.use(PiniaVuePlugin)
+const pinia = createPinia()
+
 new Vue({
 	el: '#app',
 	router,
-	store,
+	pinia,
 	render: h => h(App)
 });
