@@ -1,23 +1,41 @@
 <template>
-    <div class="card" @click="navigateToCategoryArticles()">
-        <i :class="getIconClass(category)" class="icon"></i>
-        <div class="title">{{ category.title }}</div>
-        <div class="article">{{ category.totalArticle }} articles</div>
-        <span class="small">Last updated 2 days ago</span>
+    <div class="card" @click="navigateToCategoryArticles()" :class="{ 'card-height': showDesc }">
+        <div>
+            <i :class="getIconClass(category)" class="icon"></i>
+            <div class="title">{{ category.title }}</div>
+            <div class="article">{{ category.totalArticle }} articles</div>
+            <span class="small">Last updated 2 days ago</span>
+        </div>
+        <template v-if="showDesc">
+            <div class="divider"></div>
+            <div class="card-desc">
+                <i class="fas fa-info-circle"></i>
+                <span>{{ category.description }}</span>
+            </div>
+        </template>
     </div>
 </template>
 
 <script>
+import { mapActions } from 'pinia'
+import { useCategoryStore } from '../store';
+
 export default {
     name: 'CategoryCard',
     props: {
-        category: Object
+        category: Object,
+        showDesc: {
+            type: Boolean,
+            default: false
+        },
     },
     methods: {
+        ...mapActions(useCategoryStore, ['setSelectedCategory']),
         getIconClass(category) {
             return `fas fa-${category.icon}`
         },
         navigateToCategoryArticles() {
+            this.setSelectedCategory(this.category)
             this.$router.push(`/category/${this.category.id}`)
         }
     }
@@ -60,5 +78,33 @@ export default {
     .small {
         font-size: 11px;
         color: $text-gray;
+    }
+
+    .divider {
+        height: 1px;
+        background-color: #eee;
+        width: auto;
+        margin-inline: -2rem;
+        margin-block: 20px;
+    }
+
+    .card-desc {
+        display: flex;
+        flex-direction: column;
+
+        i {
+            color: $green;
+            font-size: 20px;
+        }
+
+        span {
+            margin-top: 1rem;
+            font-size: 13px;
+            color: $text-gray;
+        }
+    }
+
+    .card-height {
+        height: max-content;
     }
 </style>

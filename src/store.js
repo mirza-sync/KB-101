@@ -1,13 +1,23 @@
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('counter', {
-    state: () => ({ count: 0 }),
-    getters: {
-      doubleCount: (state) => state.count * 2,
-    },
+export const useCategoryStore = defineStore('category', {
+    state: () => ({
+        categories: [],
+        selectedCategory: null,
+    }),
     actions: {
-      increment() {
-        this.count++
-      },
+        setCategories(categories) {
+            this.categories = categories
+        },
+        setSelectedCategory(category) {
+            localStorage.setItem('tawk-selected-category', JSON.stringify(category))
+            this.selectedCategory = category
+        },
+        getSelectedCategory() {
+            const category = localStorage.getItem('tawk-selected-category')
+            if (category) {
+                this.selectedCategory = JSON.parse(category)
+            }
+        }
     },
-  })
+})
