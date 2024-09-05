@@ -20,5 +20,7 @@ export default {
 
 	.container {
 		padding-inline: 9rem;
+		max-width: 1280px;
+		margin-inline: auto;
 	}
 </style>

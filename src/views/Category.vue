@@ -1,21 +1,29 @@
 <template>
-    <div class="layout">
-        <CategoryCard :category="selectedCategory" :showDesc="true" />
-        <div v-if="articles.length > 0">
-            <div v-for="article of articles" class="article-card">
-                <i :class="getIconClass(article.icon)"></i>
-                <div class="article-desc">
-                    <h2>{{ article.title }}</h2>
-                    <span>Updated 2 days ago</span>
+    <div>
+        <div class="layout">
+            <CategoryCard :category="selectedCategory" :showDesc="true" />
+            <div v-if="articles.length > 0" class="article-col">
+                <div v-for="article of articles" class="article-card">
+                    <i :class="getIconClass(article.icon)"></i>
+                    <div class="article-desc">
+                        <h2>{{ article.title }}</h2>
+                        <span>Updated 2 days ago</span>
+                    </div>
+                    <i class="icon fas fa-chevron-right"></i>
                 </div>
-                <i class="icon fas fa-chevron-right"></i>
+            </div>
+            <div v-else>
+                <span>No article found</span>
             </div>
         </div>
-        <div v-else>
-            <span>No article found</span>
-        </div>
-        <div>
-            <span>Other categories</span>
+        <div class="divider"></div>
+        <div class="other-cat">
+            <h3>Other categories</h3>
+            <div class="cat-list">
+                <template v-for="category of otherCategories">
+                    <CategoryCard :category="category" />
+                </template>
+            </div>
         </div>
     </div>
 </template>
@@ -29,7 +37,8 @@ import CategoryCard from '../components/CategoryCard.vue'
 export default {
     data() {
         return {
-            articles: []
+            articles: [],
+            otherCategories: [],
         }
     },
     components: {
@@ -38,9 +47,10 @@ export default {
     created() {
         this.getArticlesByCategoryId(this.$route.params.id)
         this.getSelectedCategory()
+        this.getOtherCategories()
     },
     computed: {
-        ...mapState(useCategoryStore, ['selectedCategory'])
+        ...mapState(useCategoryStore, ['selectedCategory', 'categories'])
     },
     methods: {
         ...mapActions(useCategoryStore, ['getSelectedCategory']),
@@ -55,6 +65,11 @@ export default {
         getIconClass(articleIcon) {
             return `icon fas fa-${articleIcon}`;
         },
+        getOtherCategories() {
+            if (this.categories.length > 0) {
+                this.otherCategories = this.categories.filter(category => category.id !== this.selectedCategory.id)
+            }
+        }
     }
 }
 </script>
@@ -63,9 +78,16 @@ export default {
 	@import '../scss/variables';
 
     .layout {
-        display: grid;
-        grid-template-columns: 1fr 2fr;
+        display: flex;
         gap: 3.75rem;
+
+        & > div:first-child {
+            flex-basis: 30%;
+        }
+
+        .article-col {
+            flex-grow: 1;
+        }
     }
 
     .category-card {
@@ -113,6 +135,29 @@ export default {
             span {
                 font-size: 11px;
                 color: $text-gray;
+            }
+        }
+    }
+
+    .divider {
+        height: 1px;
+        background-color: #eee;
+        width: 100%;
+        margin-block: 2rem;
+    }
+
+    .other-cat {
+        h3 {
+            color: $text-gray;
+            text-align: center;
+        }
+        
+        .cat-list {
+            display: flex;
+            gap: 1rem;
+
+            div {
+                flex: 1;
             }
         }
     }
