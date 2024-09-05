@@ -4,7 +4,7 @@
             <i :class="getIconClass(category)" class="icon"></i>
             <div class="title">{{ category.title }}</div>
             <div class="article">{{ category.totalArticle }} articles</div>
-            <span class="small">Last updated 2 days ago</span>
+            <span class="small">{{ formatDaysAgo(category.updatedOn) }}</span>
         </div>
         <template v-if="showDesc">
             <div class="divider"></div>
@@ -19,6 +19,7 @@
 <script>
 import { mapActions } from 'pinia'
 import { useCategoryStore } from '../store';
+import { formatDaysAgo } from '../utils';
 
 export default {
     name: 'CategoryCard',
@@ -37,6 +38,9 @@ export default {
         navigateToCategoryArticles() {
             this.setSelectedCategory(this.category)
             this.$router.push(`/category/${this.category.id}`)
+        },
+        formatDaysAgo(timestamp) {
+            return formatDaysAgo(timestamp)
         }
     }
 }

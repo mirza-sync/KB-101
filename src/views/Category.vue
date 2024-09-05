@@ -7,7 +7,7 @@
                     <i :class="getIconClass(article.icon)"></i>
                     <div class="article-desc">
                         <h2>{{ article.title }}</h2>
-                        <span>Updated 2 days ago</span>
+                        <span>{{ formatDate(article.updatedOn) }}</span>
                     </div>
                     <i class="icon fas fa-chevron-right"></i>
                 </div>
@@ -33,6 +33,7 @@ import { axiosClient } from '../lib/axios';
 import { mapActions, mapState } from 'pinia'
 import { useCategoryStore } from '../store';
 import CategoryCard from '../components/CategoryCard.vue'
+import { formatDate } from '../utils';
 
 export default {
     data() {
@@ -69,6 +70,9 @@ export default {
             if (this.categories.length > 0) {
                 this.otherCategories = this.categories.filter(category => category.id !== this.selectedCategory.id)
             }
+        },
+        formatDate(timestamp) {
+            return formatDate(timestamp)
         }
     }
 }
