@@ -5,8 +5,8 @@
 			<h3>Everything you need to manage your messaging</h3>
 		</div>
 		<div class="search">
-			<input type="search">
-			<button class="search-button">
+			<input type="search" v-model="queryText" @keyup.enter="search()">
+			<button class="search-button" @click="search()">
 				<i class="fas fa-search"></i>
 			</button>
 		</div>
@@ -14,7 +14,19 @@
 </template>
 
 <script>
+
 export default {
+	data() {
+		return {
+			queryText: "",
+		}
+	},
+	methods: {
+		async search() {
+			console.log(this.queryText)
+			this.$router.push(`/search/${this.queryText}`)
+		}
+	}
 }
 </script>
 
